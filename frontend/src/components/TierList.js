@@ -34,7 +34,7 @@ export default function TierList({ items }) {
   }, [items]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
+    <div style={{ display: "flex", flexDirection: "column", marginLeft:"15%" }}>
       {tierList.map((tier, index) => (
         <div
           key={index}
@@ -44,9 +44,11 @@ export default function TierList({ items }) {
             flexDirection: "row",
             alignItems: "center",
             margin: "50px",
+            marginBottom: "5px",
+            marginTop: "5px",
           }}
         >
-          <h2>{tier.label}</h2>
+          <h2 className="tier-label">{tier.label}</h2>
           <div
             className="tier-row"
           >

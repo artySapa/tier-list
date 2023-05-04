@@ -14,8 +14,8 @@ export default function EntryPage(props) {
   const URL = "http://localhost:8080";
 
   const addPost = () => {
-    if (entryContents === "") {
-      console.log("Enter something!");
+    if (rank === "" ) {
+      alert("Enter something!");
       return;
     }
 
@@ -54,17 +54,17 @@ export default function EntryPage(props) {
           type="text"
           onChange={(e) => setEntryContents(e.target.value)}
           placeholder="Give a name"
-          style ={{margin: "15px"}}
+          className="input-box"
           value={entryContents}
         />
         <input
           type="text"
           onChange={(e) => setRank(e.target.value)}
           placeholder="Set the tier"
-          style ={{margin: "15px"}}
+          className="input-box"
           value={rank}
         />
-        <Button variant = "filled" sx={{margin: "15px", background: "linear-gradient(10deg, rgb(255, 0, 157), rgb(255, 157, 0))"}} onClick={() => {
+        <Button variant = "filled" sx={{margin: "15px", background: "linear-gradient(45deg, rgb(255, 0, 157), rgb(255, 157, 0))"}} onClick={() => {
             addPost();
           }}>
             Post
