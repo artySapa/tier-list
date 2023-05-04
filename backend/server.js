@@ -32,6 +32,7 @@ const TierEntries = require("./models/TierEntries");
 // the user has created
 app.get('/entries', async (req, res) => {
     const allEntries = await TierEntries.find({});
+    res.json(allEntries);
 })
 
 app.post('/entries/new', async (req,res) => {
@@ -43,3 +44,25 @@ app.post('/entries/new', async (req,res) => {
     await entries.save();
     res.json(entries);
 })
+
+app.put('/entries/edit/:_id', async (req,res) => {
+    const entry = await TierEntries.findById(req.body._id);
+
+    entry.content = req.body.content;
+    entry.save();
+    res.json(entry);
+})
+
+app.put('/entries/rank/:_id', async (req,res) => {
+    const entry = await TierEntries.findById(req.body._id);
+
+    entry.rank = req.body.rank;
+    entry.save();
+    res.json(entry);
+})
+
+app.delete('entries/delete', async (req, res) => {
+    const entry = await TierEntries.findByIdAndDelete(req.body._id);
+    res.json(entry);
+})
+
