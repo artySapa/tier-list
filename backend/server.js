@@ -38,7 +38,7 @@ app.get('/entries', async (req, res) => {
 app.post('/entries/new', async (req,res) => {
     const entries = new TierEntries({
         content: req.body.content,
-        rank: req.body.content,
+        rank: req.body.rank,
         timestamp: Date.now(),
     });
     await entries.save();

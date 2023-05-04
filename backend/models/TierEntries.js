@@ -7,7 +7,7 @@ const EntrySchema = new Schema ({
         required: true,
     },
     rank: {
-        type: Number,
+        type: String,
     },
     timestamp: {
         type: Number,
