@@ -14,25 +14,34 @@ export default function EntryPage(props) {
   const URL = "http://localhost:8080";
 
   const addPost = () => {
-    if (rank === "" ) {
+    if (rank === "") {
       alert("Enter something!");
       return;
     }
-
-    axios
-      .post(URL + "/entries/new", {
-        content: entryContents,
-        rank: rank,
-        timestamp: Date.now(),
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch(console.error);
-      setRank("");
-      setEntryContents("");
+  
+    const existingItem = entries.find((item) => item.rank === rank);
+  
+    if (existingItem) {
+      alert("such item already exists");
+    } else {
+      axios
+        .post(`${URL}/entries/new`, {
+          content: entryContents,
+          rank: rank,
+          timestamp: Date.now(),
+        })
+        .then((response) => {
+          setEntries((prevEntries) => {
+            return [...prevEntries, response.data];
+          });
+        })
+        .catch(console.error);
+    }
+  
+    setRank("");
+    setEntryContents("");
   };
-
+  
   const getFeed = () => {
     axios
       .get(URL + "/entries")
@@ -42,6 +51,24 @@ export default function EntryPage(props) {
       .catch(console.error);
   };
 
+  const editPost = (editItem) => {
+    axios
+      .put(`/entries/edit/${editItem._id}`, editItem)
+      .then((response) => {
+        setEntries(response.data);
+      })
+      .catch(console.error);
+  };
+
+
+  const deletePost = (deleteItem) => {
+    axios
+        .delete("/entries/delete", deleteItem)
+        .then((response) => {
+            setEntries(response.data)
+        })
+        .catch(console.error)
+  }
   useEffect(() => {
     getFeed();
   }, [entries]);
@@ -64,7 +91,7 @@ export default function EntryPage(props) {
           className="input-box"
           value={rank}
         />
-        <Button variant = "filled" sx={{margin: "15px", background: "linear-gradient(45deg, rgb(255, 0, 157), rgb(255, 157, 0))"}} onClick={() => {
+        <Button variant = "filled" sx={{margin: "15px", color: "white", background: "linear-gradient(45deg, rgb(255, 0, 157), rgb(255, 157, 0))"}} onClick={() => {
             addPost();
           }}>
             Post
@@ -72,7 +99,7 @@ export default function EntryPage(props) {
         </div>
       </div>
         <div>
-            <TierList items = {entries}/>
+            <TierList items = {entries} edit={addPost}/>
         </div>
     </div>
   );

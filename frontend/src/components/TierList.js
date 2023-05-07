@@ -1,13 +1,18 @@
 import React from "react";
-
 import { useState, useEffect } from "react";
+import "./TierList.css";
+import axios from 'axios';
+import { Button } from "@mui/base";
 
-import './TierList.css';
 
-export default function TierList({ items }) {
+export default function TierList({ items, edit }) {
   const [itemContent, setItemContent] = useState([]);
   const [tierList, setTierList] = useState([]);
 
+  const [dragItem, setDragItem] = useState("");
+
+  const URL = "http://localhost:8080";
+  
   /* Retrieve items from the database array to further map them into divs */
   const getItems = () => {
     if (items.length === 0) {
@@ -21,7 +26,7 @@ export default function TierList({ items }) {
       if (!itemMap[label]) {
         itemMap[label] = { label, items: [] };
       }
-     itemMap[label].items.push(content);
+      itemMap[label].items.push(content);
     }
 
     const tempCont = Object.values(itemMap);
@@ -32,12 +37,13 @@ export default function TierList({ items }) {
   useEffect(() => {
     getItems();
   }, [items]);
+  
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", marginLeft:"15%" }}>
-      {tierList.map((tier, index) => (
+    <div style={{ display: "flex", flexDirection: "column", marginLeft: "15%" }}>
+      {tierList.map((tier, tierIndex) => (
         <div
-          key={index}
+          key={tierIndex}
           style={{
             flex: 1,
             display: "flex",
@@ -49,14 +55,12 @@ export default function TierList({ items }) {
           }}
         >
           <h2 className="tier-label">{tier.label}</h2>
-          <div
-            className="tier-row"
-          >
+          <div className="tier-row">
             {tier.items.map((item, itemIndex) => (
               <div
                 key={itemIndex}
                 draggable
-                className = "tier-square"
+                className="tier-square"
               >
                 {item}
               </div>

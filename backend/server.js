@@ -49,6 +49,7 @@ app.put('/entries/edit/:_id', async (req,res) => {
     const entry = await TierEntries.findById(req.body._id);
 
     entry.content = req.body.content;
+    entry.rank = req.body.rank;
     entry.save();
     res.json(entry);
 })
